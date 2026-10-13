@@ -71,7 +71,15 @@ details{margin:4px 0 14px;border-top:1px solid var(--line);padding-top:10px}
 summary{cursor:pointer;font-weight:500;font-size:.92rem}
 details ul{margin:10px 0 0;padding-left:18px;font-size:.92rem;color:var(--muted)}
 details li{margin-bottom:6px}
+.links{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+.links a{display:inline-flex;align-items:center;padding:7px 14px;border-radius:8px;font-size:.88rem;font-weight:500;text-decoration:none;border:1px solid var(--line);background:var(--surface)}
+.links a.main{background:var(--navy);color:#fff;border-color:var(--navy)}
+:root[data-theme="dark"] .links a.main{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .links a.main{background:var(--gold);color:var(--navy);border-color:var(--gold)}}
+.links a:hover{border-color:var(--gold)}
+.links .soon{font-size:.85rem;color:var(--muted);font-style:italic}
 .pending{color:var(--muted);font-size:.92rem}
+.links .note{flex-basis:100%;font-size:.8rem;color:var(--muted);margin:0}
 
 .about{display:grid;grid-template-columns:1fr;gap:24px}
 @media (min-width:760px){.about{grid-template-columns:1.4fr 1fr}}
@@ -126,7 +134,7 @@ footer b{color:var(--gold-2);font-weight:500}
 
   <section id="projects" aria-labelledby="projects-h">
     <h2 id="projects-h">Case studies</h2>
-    <p class="lead">Real projects, built and tested. Two are complete; two are being added now.</p>
+    <p class="lead">Real projects, built and tested.</p>
 
     <div class="grid">
       <article class="card featured">
@@ -143,6 +151,7 @@ footer b{color:var(--gold-2);font-weight:500}
             <li><strong>Context:</strong> MSc dissertation, University of Stirling.</li>
           </ul>
         </details>
+        <div class="links" data-project="cores"></div>
         <div class="row"><span class="tag">AI / Research</span><span class="status">Complete</span></div>
       </article>
 
@@ -160,6 +169,7 @@ footer b{color:var(--gold-2);font-weight:500}
             <li><strong>Note:</strong> member data is private, so screenshots shown here use demonstration data only.</li>
           </ul>
         </details>
+        <div class="links" data-project="ntssosa"></div>
         <div class="row"><span class="tag">Full-Stack</span><span class="status">Live</span></div>
       </article>
 
@@ -168,6 +178,7 @@ footer b{color:var(--gold-2);font-weight:500}
         <h3>Power BI Analytics</h3>
         <p class="stack">Dashboards, data modelling, DAX, KPIs</p>
         <p class="pending">An interactive dashboard built on public Scottish health and social care data. Being added now.</p>
+        <div class="links" data-project="powerbi"></div>
         <div class="row"><span class="tag">Business Intelligence</span><span class="status">In progress</span></div>
       </article>
 
@@ -176,6 +187,7 @@ footer b{color:var(--gold-2);font-weight:500}
         <h3>SQL &amp; Python Projects</h3>
         <p class="stack">Data analysis, querying and automation</p>
         <p class="pending">Reproducible analysis projects with code on GitHub. Being added now.</p>
+        <div class="links" data-project="sqlpython"></div>
         <div class="row"><span class="tag">Data Analytics</span><span class="status">In progress</span></div>
       </article>
     </div>
@@ -220,6 +232,72 @@ footer b{color:var(--gold-2);font-weight:500}
     <span>Paisley, Scotland</span>
   </div>
 </footer>
+
+<script>
+/* ===== PROJECT LINKS: edit only this section =====
+   Paste a full web address between the quotes to show a button.
+   Leave a field as "" and its button is hidden.
+   If a project has no links at all, it shows "Demo coming soon". */
+const PROJECT_LINKS = {
+  cores: {
+    demo:  "",   // live CORES demo, e.g. a Streamlit or Hugging Face link
+    video: "",   // walkthrough video, e.g. YouTube (unlisted is fine)
+    code:  ""    // GitHub repository
+  },
+  ntssosa: {
+    demo:  "https://ntssosa-uk-portal.vercel.app/auth/login",
+    note:  "Not a member? Use the View demo button on the sign-in page to explore the portal with sample data. Real member records stay private and are only available to signed-in members.",
+    video: "",
+    code:  ""    // leave empty while the repository is private
+  },
+  powerbi: {
+    demo:  "",   // Power BI report link or dashboard screenshots page
+    video: "",
+    code:  ""
+  },
+  sqlpython: {
+    demo:  "",
+    video: "",
+    code:  ""    // e.g. https://github.com/CodeMagnate/your-repo
+  }
+};
+/* ===== end of editable section ===== */
+
+const LABELS = {
+  demo:  { cores: "Try the live demo", ntssosa: "Visit the live portal", powerbi: "View the dashboard", sqlpython: "View the project" },
+  video: "Watch the walkthrough",
+  code:  "View the code"
+};
+document.querySelectorAll(".links").forEach(function (box) {
+  const key = box.dataset.project;
+  const links = PROJECT_LINKS[key] || {};
+  let added = 0;
+  ["demo", "video", "code"].forEach(function (type) {
+    const url = (links[type] || "").trim();
+    if (!url) return;
+    const a = document.createElement("a");
+    a.href = url;
+    a.target = "_blank";
+    a.rel = "noopener";
+    a.textContent = type === "demo" ? LABELS.demo[key] : LABELS[type];
+    if (added === 0) a.className = "main";
+    box.appendChild(a);
+    added++;
+  });
+  if (!added) {
+    const span = document.createElement("span");
+    span.className = "soon";
+    span.textContent = "Demo coming soon";
+    box.appendChild(span);
+  }
+  if (added && links.note) {
+    const n = document.createElement("p");
+    n.className = "note";
+    n.textContent = links.note;
+    box.appendChild(n);
+  }
+});
+</script>
 
 </body>
 </html>
