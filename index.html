@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Engr Ayodele | Adeshina Ayodele, AI, Data Analytics and Business Intelligence</title>
+<meta name="description" content="Portfolio of Adeshina Ayodele (Engr Ayodele): AI solutions, data analytics, full-stack development and business intelligence, based in Paisley, Scotland.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0b1f3a; --navy-2:#14315c; --gold:#c9a24a; --gold-2:#e8c97a;
+  --bg:#f6f7fa; --surface:#ffffff; --text:#0b1f3a; --muted:#4a5a74; --line:#d9dfe8;
+  --chip:#eef1f6; --tag-bg:#f6efdc; --tag-text:#6e531a;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#08162b; --surface:#0f2443; --text:#eef2f8; --muted:#a9b6ca; --line:#22406b;
+    --chip:#15305a; --tag-bg:#3a2f14; --tag-text:#e8c97a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#08162b; --surface:#0f2443; --text:#eef2f8; --muted:#a9b6ca; --line:#22406b;
+  --chip:#15305a; --tag-bg:#3a2f14; --tag-text:#e8c97a; color-scheme: dark;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Poppins,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.6}
+a{color:inherit}
+a:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+
+/* Hero: the card's front, as a page */
+.hero{background:linear-gradient(120deg,var(--navy) 0%,var(--navy) 58%,var(--navy-2) 100%);color:#fff;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;top:-10%;right:22%;width:14px;height:130%;background:linear-gradient(180deg,var(--gold-2),var(--gold) 50%,#8a6a25);border-radius:50%;transform:rotate(12deg);opacity:.9}
+.hero .wrap{position:relative;z-index:1;padding-top:40px;padding-bottom:56px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.mark{display:flex;align-items:center;gap:10px;text-decoration:none}
+.mark svg{width:26px;height:26px;color:var(--gold-2)}
+.mark b{display:block;font-weight:600;letter-spacing:.05em;color:var(--gold-2);line-height:1.1}
+.mark small{display:block;font-size:.8rem;color:#c9d4e6;font-weight:300}
+nav ul{list-style:none;display:flex;gap:8px;flex-wrap:wrap;margin:0;padding:0}
+nav a{display:inline-block;padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(232,201,122,.35);text-decoration:none;font-size:.88rem;color:#fff}
+nav a:hover{background:rgba(232,201,122,.18)}
+.hero h1{font-size:clamp(1.8rem,4.6vw,2.9rem);font-weight:600;line-height:1.15;margin:52px 0 10px;max-width:16ch}
+.name{font-size:1.15rem;margin:0;color:#fff}
+.quals{font-weight:300;color:#c9d4e6;margin:4px 0 0;font-size:.95rem}
+.rule{width:56px;height:3px;background:var(--gold);margin:22px 0 14px;border:0}
+.areas{color:var(--gold-2);font-weight:500;letter-spacing:.04em;font-size:.95rem;margin:0}
+.tagline{font-style:italic;font-weight:300;margin:6px 0 0;color:#fff}
+
+/* Sections */
+section{padding:56px 0 8px}
+h2{font-size:1.5rem;font-weight:600;margin:0 0 6px}
+.lead{color:var(--muted);margin:0 0 24px;max-width:62ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column}
+.card.featured{border-top:4px solid var(--gold)}
+.card .ico{width:28px;height:28px;color:var(--text);opacity:.8}
+.card h3{font-size:1.15rem;font-weight:600;margin:12px 0 4px}
+.card .stack{font-size:.88rem;color:var(--muted);margin:0 0 12px}
+.card p{margin:0 0 12px;max-width:60ch}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:auto}
+.tag{font-size:.8rem;font-weight:500;padding:3px 10px;border-radius:999px;background:var(--chip)}
+.status{font-size:.8rem;font-weight:500;padding:3px 10px;border-radius:999px;background:var(--tag-bg);color:var(--tag-text)}
+details{margin:4px 0 14px;border-top:1px solid var(--line);padding-top:10px}
+summary{cursor:pointer;font-weight:500;font-size:.92rem}
+details ul{margin:10px 0 0;padding-left:18px;font-size:.92rem;color:var(--muted)}
+details li{margin-bottom:6px}
+.pending{color:var(--muted);font-size:.92rem}
+
+.about{display:grid;grid-template-columns:1fr;gap:24px}
+@media (min-width:760px){.about{grid-template-columns:1.4fr 1fr}}
+.about p{max-width:62ch;margin:0 0 14px}
+.facts{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;margin:0}
+.facts dt{font-size:.82rem;color:var(--muted)}
+.facts dd{margin:0 0 12px;font-weight:500}
+
+.contact{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;text-decoration:none;font-weight:500;border:1px solid var(--line);background:var(--surface)}
+.btn.primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+:root[data-theme="dark"] .btn.primary{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.primary{background:var(--gold);color:var(--navy);border-color:var(--gold)}}
+.btn:hover{border-color:var(--gold)}
+
+footer{margin-top:56px;background:var(--navy);color:#c9d4e6;border-top:3px solid var(--gold)}
+footer .wrap{padding-top:22px;padding-bottom:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:.88rem}
+footer b{color:var(--gold-2);font-weight:500}
+
+@media (max-width:640px){.hero::after{right:6%;opacity:.5}.hero h1{margin-top:36px}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="top">
+      <a class="mark" href="#">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M2.5 12h19M12 2.5c3 3.2 3 15.8 0 19M12 2.5c-3 3.2-3 15.8 0 19" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span><b>ENGR AYODELE</b><small>Personal technology portfolio</small></span>
+      </a>
+      <nav aria-label="Main">
+        <ul>
+          <li><a href="#about">About me</a></li>
+          <li><a href="#projects">Case studies</a></li>
+          <li><a href="#cv">CV</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <h1>Building intelligent solutions for real-world problems.</h1>
+    <p class="name">Adeshina Ayodele</p>
+    <p class="quals">BSc (Metallurgical &amp; Materials Engineering) &nbsp;|&nbsp; MBA &nbsp;|&nbsp; MSc Artificial Intelligence</p>
+    <hr class="rule">
+    <p class="areas">AI &nbsp;|&nbsp; Data Analytics &nbsp;|&nbsp; Full-Stack Development &nbsp;|&nbsp; Business Intelligence</p>
+    <p class="tagline">Engineering Intelligence. Delivering Solutions.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="projects" aria-labelledby="projects-h">
+    <h2 id="projects-h">Case studies</h2>
+    <p class="lead">Real projects, built and tested. Two are complete; two are being added now.</p>
+
+    <div class="grid">
+      <article class="card featured">
+        <svg class="ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4" stroke="currentColor" stroke-width="1.8"/></svg>
+        <h3>CORES AI Assistant</h3>
+        <p class="stack">LLMs, RAG, output parsing, web scraping</p>
+        <p>A conversational AI assistant that helps people complete Scottish Adult Disability Payment applications on their own, explaining questions and checking answers in plain language.</p>
+        <details>
+          <summary>Read the case study</summary>
+          <ul>
+            <li><strong>Problem:</strong> many vulnerable adults rely on another person to complete long, complex benefit forms.</li>
+            <li><strong>Approach:</strong> OpenAI LLMs with retrieval-augmented generation over official Scottish Government guidance and real application forms, plus output parsing and prompt engineering for dialogue control.</li>
+            <li><strong>Results:</strong> about 92% accuracy in question-and-answer testing, with responses in 1.2 to 9.8 seconds. It stayed polite and on task when provoked or derailed.</li>
+            <li><strong>Context:</strong> MSc dissertation, University of Stirling.</li>
+          </ul>
+        </details>
+        <div class="row"><span class="tag">AI / Research</span><span class="status">Complete</span></div>
+      </article>
+
+      <article class="card featured">
+        <svg class="ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><rect x="4" y="8" width="16" height="10" fill="var(--surface)"/><path d="M9 11l-2.5 2L9 15M15 11l2.5 2L15 15" stroke="currentColor" stroke-width="1.6" fill="none"/></svg>
+        <h3>NTSSOSA UK Portal</h3>
+        <p class="stack">Next.js, TypeScript, Supabase, Vercel</p>
+        <p>A live membership and governance portal for a UK alumni association: member registration and approvals, automatic membership numbers, finances and expenditure, documents, and online elections.</p>
+        <details>
+          <summary>Read the case study</summary>
+          <ul>
+            <li><strong>Goal:</strong> give the chapter one secure place to manage members, dues, documents and elections.</li>
+            <li><strong>Approach:</strong> a role-based web portal with secure sign-in and row-level security on a PostgreSQL database, deployed from GitHub to Vercel.</li>
+            <li><strong>Results:</strong> in live use by the chapter, running on free-tier infrastructure.</li>
+            <li><strong>Note:</strong> member data is private, so screenshots shown here use demonstration data only.</li>
+          </ul>
+        </details>
+        <div class="row"><span class="tag">Full-Stack</span><span class="status">Live</span></div>
+      </article>
+
+      <article class="card">
+        <svg class="ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="13" width="4" height="8"/><rect x="10" y="8" width="4" height="13"/><rect x="17" y="3" width="4" height="18"/></svg>
+        <h3>Power BI Analytics</h3>
+        <p class="stack">Dashboards, data modelling, DAX, KPIs</p>
+        <p class="pending">An interactive dashboard built on public Scottish health and social care data. Being added now.</p>
+        <div class="row"><span class="tag">Business Intelligence</span><span class="status">In progress</span></div>
+      </article>
+
+      <article class="card">
+        <svg class="ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5c0 1.7-3.6 3-8 3S4 6.7 4 5z"/></svg>
+        <h3>SQL &amp; Python Projects</h3>
+        <p class="stack">Data analysis, querying and automation</p>
+        <p class="pending">Reproducible analysis projects with code on GitHub. Being added now.</p>
+        <div class="row"><span class="tag">Data Analytics</span><span class="status">In progress</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="about" aria-labelledby="about-h">
+    <h2 id="about-h">About me</h2>
+    <div class="about">
+      <div>
+        <p>I'm Adeshina Ayodele, known professionally as Engr Ayodele. I trained as an engineer, studied business strategy for my MBA, and completed an MSc in Artificial Intelligence at the University of Stirling.</p>
+        <p>I work in health and social care in Scotland, which shapes how I build technology: it has to work for real people, including those who find digital services hardest to use. I'm now focused on AI, data analytics and business intelligence roles where engineering thinking, business sense and frontline experience all count.</p>
+      </div>
+      <dl class="facts">
+        <dt>Based in</dt><dd>Paisley, Scotland</dd>
+        <dt>Focus</dt><dd>AI solutions, Power BI, SQL and Python, web portals</dd>
+        <dt>Currently learning</dt><dd>Microsoft PL-300 (Power BI) and AZ-900 (Azure)</dd>
+      </dl>
+    </div>
+  </section>
+
+  <section id="cv" aria-labelledby="cv-h">
+    <h2 id="cv-h">CV</h2>
+    <p class="lead">A downloadable CV is coming soon. In the meantime, I'm happy to send it directly.</p>
+    <a class="btn primary" href="mailto:codemagnate084@gmail.com?subject=CV%20request">Request my CV</a>
+  </section>
+
+  <section id="contact" aria-labelledby="contact-h">
+    <h2 id="contact-h">Contact</h2>
+    <p class="lead">Open to roles, collaborations and conversations about AI and data in health, social care and public services.</p>
+    <div class="contact">
+      <a class="btn primary" href="mailto:codemagnate084@gmail.com">Email me</a>
+      <a class="btn" href="https://www.linkedin.com/in/your-profile" rel="noopener">LinkedIn</a>
+      <a class="btn" href="https://github.com/CodeMagnate" rel="noopener">GitHub</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span><b>ENGR AYODELE</b> &nbsp;Adeshina Ayodele</span>
+    <span>Paisley, Scotland</span>
+  </div>
+</footer>
+
+</body>
+</html>
