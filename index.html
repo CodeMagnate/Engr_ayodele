@@ -81,6 +81,8 @@ details li{margin-bottom:6px}
 .pending{color:var(--muted);font-size:.92rem}
 .links .note{flex-basis:100%;font-size:.8rem;color:var(--muted);margin:0}
 
+.cslink{display:inline-block;font-weight:600;font-size:.92rem;color:var(--text);text-decoration:none;border-bottom:2px solid var(--gold);margin:0 0 12px;align-self:flex-start}
+.cslink:hover{color:var(--gold)}
 .privacy{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:12px;padding:16px 18px;margin:0 0 24px}
 .privacy svg{width:26px;height:26px;flex:none;color:var(--gold);margin-top:2px}
 .privacy h3{font-size:1rem;font-weight:600;margin:0 0 4px}
@@ -128,7 +130,7 @@ footer b{color:var(--gold-2);font-weight:500}
 
     <h1>Building intelligent solutions for real-world problems.</h1>
     <p class="name">Adeshina Ayodele</p>
-    <p class="quals">BSc (Metallurgical &amp; Materials Engineering) &nbsp;|&nbsp; MBA &nbsp;|&nbsp; MSc Artificial Intelligence</p>
+    <p class="quals">BSc Engineering &nbsp;|&nbsp; MBA &nbsp;|&nbsp; MSc Artificial Intelligence</p>
     <hr class="rule">
     <p class="areas">AI &nbsp;|&nbsp; Data Analytics &nbsp;|&nbsp; Full-Stack Development &nbsp;|&nbsp; Business Intelligence</p>
     <p class="tagline">Engineering Intelligence. Delivering Solutions.</p>
@@ -153,17 +155,18 @@ footer b{color:var(--gold-2);font-weight:500}
       <article class="card featured">
         <svg class="ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4M15 2v4M9 18v4M15 18v4M2 9h4M2 15h4M18 9h4M18 15h4" stroke="currentColor" stroke-width="1.8"/></svg>
         <h3>CORES AI Assistant</h3>
-        <p class="stack">LLMs, RAG, output parsing, web scraping</p>
-        <p>A conversational AI assistant that helps people complete Scottish Adult Disability Payment applications on their own, explaining questions and checking answers in plain language.</p>
+        <p class="stack">Python, LangChain, GPT-4, FAISS, OCR</p>
+        <p>A conversational AI assistant that guides people step by step through government and care-service forms, such as Adult Disability Payment applications, in plain language.</p>
         <details>
-          <summary>Read the case study</summary>
+          <summary>Quick summary</summary>
           <ul>
             <li><strong>Problem:</strong> many vulnerable adults rely on another person to complete long, complex benefit forms.</li>
-            <li><strong>Approach:</strong> OpenAI LLMs with retrieval-augmented generation over official Scottish Government guidance and real application forms, plus output parsing and prompt engineering for dialogue control.</li>
-            <li><strong>Results:</strong> about 92% accuracy in question-and-answer testing, with responses in 1.2 to 9.8 seconds. It stayed polite and on task when provoked or derailed.</li>
+            <li><strong>Approach:</strong> GPT-4 with retrieval-augmented generation over scanned forms read with OCR, a FAISS vector index, conversation memory and detailed prompt design for vulnerable users.</li>
+            <li><strong>Results:</strong> 91.67% accuracy (22 of 24 test exchanges), responses in 1.2 to 9.8 seconds, and it stayed polite and on task when users tried to derail it.</li>
             <li><strong>Context:</strong> MSc dissertation, University of Stirling.</li>
           </ul>
         </details>
+        <a class="cslink" href="cores.html">Read the full case study &rarr;</a>
         <div class="links" data-project="cores"></div>
         <div class="row"><span class="tag">AI / Research</span><span class="status">Complete</span></div>
       </article>
@@ -255,7 +258,7 @@ const PROJECT_LINKS = {
   cores: {
     demo:  "",   // live CORES demo, e.g. a Streamlit or Hugging Face link
     video: "",   // walkthrough video, e.g. YouTube (unlisted is fine)
-    code:  ""    // GitHub repository
+    code:  "https://github.com/CodeMagnate/cores-ai-assistant"
   },
   ntssosa: {
     demo:  "https://ntssosa-uk-portal.vercel.app/auth/login",

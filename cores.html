@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CORES case study | Engr Ayodele</title>
+<meta name="description" content="CORES: an AI assistant that guides people step by step through government and care-service forms. Python, LangChain, GPT-4, FAISS and OCR. By Adeshina Ayodele.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0b1f3a; --navy-2:#14315c; --gold:#c9a24a; --gold-2:#e8c97a;
+  --bg:#f6f7fa; --surface:#ffffff; --text:#0b1f3a; --muted:#4a5a74; --line:#d9dfe8;
+  --chip:#eef1f6; --tag-bg:#f6efdc; --tag-text:#6e531a;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#08162b; --surface:#0f2443; --text:#eef2f8; --muted:#a9b6ca; --line:#22406b;
+    --chip:#15305a; --tag-bg:#3a2f14; --tag-text:#e8c97a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#08162b; --surface:#0f2443; --text:#eef2f8; --muted:#a9b6ca; --line:#22406b;
+  --chip:#15305a; --tag-bg:#3a2f14; --tag-text:#e8c97a; color-scheme: dark;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Poppins,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.6}
+a{color:inherit}
+a:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+
+/* Hero: the card's front, as a page */
+.hero{background:linear-gradient(120deg,var(--navy) 0%,var(--navy) 58%,var(--navy-2) 100%);color:#fff;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;top:-10%;right:22%;width:14px;height:130%;background:linear-gradient(180deg,var(--gold-2),var(--gold) 50%,#8a6a25);border-radius:50%;transform:rotate(12deg);opacity:.9}
+.hero .wrap{position:relative;z-index:1;padding-top:40px;padding-bottom:56px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.mark{display:flex;align-items:center;gap:10px;text-decoration:none}
+.mark svg{width:26px;height:26px;color:var(--gold-2)}
+.mark b{display:block;font-weight:600;letter-spacing:.05em;color:var(--gold-2);line-height:1.1}
+.mark small{display:block;font-size:.8rem;color:#c9d4e6;font-weight:300}
+nav ul{list-style:none;display:flex;gap:8px;flex-wrap:wrap;margin:0;padding:0}
+nav a{display:inline-block;padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(232,201,122,.35);text-decoration:none;font-size:.88rem;color:#fff}
+nav a:hover{background:rgba(232,201,122,.18)}
+.hero h1{font-size:clamp(1.8rem,4.6vw,2.9rem);font-weight:600;line-height:1.15;margin:52px 0 10px;max-width:16ch}
+.name{font-size:1.15rem;margin:0;color:#fff}
+.quals{font-weight:300;color:#c9d4e6;margin:4px 0 0;font-size:.95rem}
+.rule{width:56px;height:3px;background:var(--gold);margin:22px 0 14px;border:0}
+.areas{color:var(--gold-2);font-weight:500;letter-spacing:.04em;font-size:.95rem;margin:0}
+.tagline{font-style:italic;font-weight:300;margin:6px 0 0;color:#fff}
+
+/* Sections */
+section{padding:56px 0 8px}
+h2{font-size:1.5rem;font-weight:600;margin:0 0 6px}
+.lead{color:var(--muted);margin:0 0 24px;max-width:62ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column}
+.card.featured{border-top:4px solid var(--gold)}
+.card .ico{width:28px;height:28px;color:var(--text);opacity:.8}
+.card h3{font-size:1.15rem;font-weight:600;margin:12px 0 4px}
+.card .stack{font-size:.88rem;color:var(--muted);margin:0 0 12px}
+.card p{margin:0 0 12px;max-width:60ch}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:auto}
+.tag{font-size:.8rem;font-weight:500;padding:3px 10px;border-radius:999px;background:var(--chip)}
+.status{font-size:.8rem;font-weight:500;padding:3px 10px;border-radius:999px;background:var(--tag-bg);color:var(--tag-text)}
+details{margin:4px 0 14px;border-top:1px solid var(--line);padding-top:10px}
+summary{cursor:pointer;font-weight:500;font-size:.92rem}
+details ul{margin:10px 0 0;padding-left:18px;font-size:.92rem;color:var(--muted)}
+details li{margin-bottom:6px}
+.links{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+.links a{display:inline-flex;align-items:center;padding:7px 14px;border-radius:8px;font-size:.88rem;font-weight:500;text-decoration:none;border:1px solid var(--line);background:var(--surface)}
+.links a.main{background:var(--navy);color:#fff;border-color:var(--navy)}
+:root[data-theme="dark"] .links a.main{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .links a.main{background:var(--gold);color:var(--navy);border-color:var(--gold)}}
+.links a:hover{border-color:var(--gold)}
+.links .soon{font-size:.85rem;color:var(--muted);font-style:italic}
+.pending{color:var(--muted);font-size:.92rem}
+.links .note{flex-basis:100%;font-size:.8rem;color:var(--muted);margin:0}
+
+.privacy{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:12px;padding:16px 18px;margin:0 0 24px}
+.privacy svg{width:26px;height:26px;flex:none;color:var(--gold);margin-top:2px}
+.privacy h3{font-size:1rem;font-weight:600;margin:0 0 4px}
+.privacy p{margin:0 0 8px;font-size:.9rem;color:var(--muted);max-width:75ch}
+.privacy p:last-child{margin-bottom:0}
+.about{display:grid;grid-template-columns:1fr;gap:24px}
+@media (min-width:760px){.about{grid-template-columns:1.4fr 1fr}}
+.about p{max-width:62ch;margin:0 0 14px}
+.facts{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;margin:0}
+.facts dt{font-size:.82rem;color:var(--muted)}
+.facts dd{margin:0 0 12px;font-weight:500}
+
+.contact{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;text-decoration:none;font-weight:500;border:1px solid var(--line);background:var(--surface)}
+.btn.primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+:root[data-theme="dark"] .btn.primary{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.primary{background:var(--gold);color:var(--navy);border-color:var(--gold)}}
+.btn:hover{border-color:var(--gold)}
+
+footer{margin-top:56px;background:var(--navy);color:#c9d4e6;border-top:3px solid var(--gold)}
+footer .wrap{padding-top:22px;padding-bottom:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:.88rem}
+footer b{color:var(--gold-2);font-weight:500}
+
+@media (max-width:640px){.hero::after{right:6%;opacity:.5}.hero h1{margin-top:36px}}
+</style>
+<style>
+.crumb{display:inline-block;margin-bottom:8px;color:#c9d4e6;font-size:.9rem;text-decoration:none}
+.crumb:hover{color:var(--gold-2)}
+.hero h1.cs{max-width:22ch;margin-top:40px}
+.kicker{color:var(--gold-2);font-weight:500;letter-spacing:.06em;font-size:.85rem;text-transform:uppercase;margin:0}
+.prose p{max-width:68ch;margin:0 0 14px}
+.prose ul{max-width:68ch;padding-left:20px;margin:0 0 14px}
+.prose li{margin-bottom:6px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:14px;margin:8px 0 18px}
+.stat{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--gold);border-radius:12px;padding:16px}
+.stat b{display:block;font-size:1.7rem;font-weight:600;line-height:1.1}
+.stat span{font-size:.88rem;color:var(--muted)}
+.figure{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;overflow-x:auto}
+.figure svg{display:block;width:100%;min-width:640px;height:auto}
+.figcap{font-size:.85rem;color:var(--muted);margin:8px 0 0}
+table.rt{border-collapse:collapse;width:100%;max-width:560px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:.92rem}
+.rt th,.rt td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line)}
+.rt th{font-weight:600;background:var(--chip)}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.chat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;max-width:640px;font-size:.92rem}
+.chat p{margin:0 0 8px}.chat .u{color:var(--muted)}.chat .a b{color:var(--text)}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <a class="crumb" href="index.html#projects">&larr; Back to all case studies</a>
+    <p class="kicker">Case study &nbsp;|&nbsp; AI / Research</p>
+    <h1 class="cs">CORES: an AI assistant for government forms</h1>
+    <p class="name">Closed and Open Repository Enhanced System</p>
+    <p class="quals">MSc Artificial Intelligence dissertation, University of Stirling, 2024</p>
+    <hr class="rule">
+    <p class="areas">Python &nbsp;|&nbsp; LangChain &nbsp;|&nbsp; GPT-4 &nbsp;|&nbsp; FAISS &nbsp;|&nbsp; OCR</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <section aria-labelledby="sum-h">
+    <h2 id="sum-h">At a glance</h2>
+    <div class="stats">
+      <div class="stat"><b>91.67%</b><span>accuracy (22 of 24 test exchanges correct)</span></div>
+      <div class="stat"><b>1.2&ndash;9.8 s</b><span>response time per answer</span></div>
+      <div class="stat"><b>7 forms</b><span>scanned forms in the knowledge base, read with OCR</span></div>
+      <div class="stat"><b>1&ndash;5</b><span>built-in user rating, with every session logged</span></div>
+    </div>
+  </section>
+
+  <section class="prose" aria-labelledby="prob-h">
+    <h2 id="prob-h">The problem</h2>
+    <p>Benefit and care-service forms are long, technical and stressful. Many people, particularly vulnerable adults applying for support such as Scotland's Adult Disability Payment, rely on a support worker or family member to complete them.</p>
+    <p>Working in Scottish health and social care, I saw this first-hand. CORES explores whether an AI assistant grounded in the actual forms can give people clear, patient, step-by-step guidance, so they can complete forms more independently.</p>
+  </section>
+
+  <section aria-labelledby="how-h">
+    <h2 id="how-h">How it works</h2>
+    <div class="figure"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 520" font-family="Poppins, Segoe UI, Arial, sans-serif" role="img" aria-labelledby="t d">
+<title id="t">CORES architecture</title>
+<desc id="d">Documents are OCR-processed, chunked, embedded and stored in FAISS. Each user question retrieves the top 3 chunks, which are combined with the prompt rules and conversation memory and sent to GPT-4. The answer is returned with its response time and logged.</desc>
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#4a5a74"/></marker></defs>
+<rect width="880" height="520" fill="#ffffff"/>
+<g font-size="13" fill="#0b1f3a">
+<text x="40" y="38" font-size="15" font-weight="600" fill="#8a6a25">1  KNOWLEDGE BASE (built once)</text>
+<rect x="40" y="56" width="170" height="78" rx="10" fill="#f6efdc" stroke="#c9a24a"/>
+<text x="125" y="88" text-anchor="middle" font-weight="600">Scanned forms</text><text x="125" y="108" text-anchor="middle" font-size="11.5" fill="#4a5a74">PDF / Word documents</text>
+<rect x="250" y="56" width="170" height="78" rx="10" fill="#eef1f6" stroke="#9fb0c8"/>
+<text x="335" y="84" text-anchor="middle" font-weight="600">Text + OCR</text><text x="335" y="104" text-anchor="middle" font-size="11.5" fill="#4a5a74">PyMuPDF, docx2txt,</text><text x="335" y="120" text-anchor="middle" font-size="11.5" fill="#4a5a74">Tesseract on images</text>
+<rect x="460" y="56" width="170" height="78" rx="10" fill="#eef1f6" stroke="#9fb0c8"/>
+<text x="545" y="84" text-anchor="middle" font-weight="600">Chunk + embed</text><text x="545" y="104" text-anchor="middle" font-size="11.5" fill="#4a5a74">1,000 chars, 200 overlap</text><text x="545" y="120" text-anchor="middle" font-size="11.5" fill="#4a5a74">OpenAI embeddings</text>
+<rect x="670" y="56" width="170" height="78" rx="10" fill="#0b1f3a"/>
+<text x="755" y="90" text-anchor="middle" font-weight="600" fill="#e8c97a">FAISS index</text><text x="755" y="110" text-anchor="middle" font-size="11.5" fill="#c9d4e6">vector search</text>
+<path d="M210 95H246" stroke="#4a5a74" stroke-width="1.6" marker-end="url(#a)"/><path d="M420 95H456" stroke="#4a5a74" stroke-width="1.6" marker-end="url(#a)"/><path d="M630 95H666" stroke="#4a5a74" stroke-width="1.6" marker-end="url(#a)"/>
+<text x="40" y="190" font-size="15" font-weight="600" fill="#8a6a25">2  EVERY QUESTION</text>
+<rect x="40" y="208" width="170" height="78" rx="10" fill="#f6efdc" stroke="#c9a24a"/>
+<text x="125" y="240" text-anchor="middle" font-weight="600">User question</text><text x="125" y="260" text-anchor="middle" font-size="11.5" fill="#4a5a74">chat interface</text>
+<rect x="250" y="208" width="380" height="78" rx="10" fill="#eef1f6" stroke="#9fb0c8"/>
+<text x="440" y="236" text-anchor="middle" font-weight="600">Retrieve top 3 relevant chunks</text><text x="440" y="256" text-anchor="middle" font-size="11.5" fill="#4a5a74">similarity search against the FAISS index</text>
+<path d="M210 247H246" stroke="#4a5a74" stroke-width="1.6" marker-end="url(#a)"/>
+<path d="M755 134V247H634" stroke="#4a5a74" stroke-width="1.6" fill="none" marker-end="url(#a)"/>
+<rect x="40" y="330" width="250" height="96" rx="10" fill="#eef1f6" stroke="#9fb0c8"/>
+<text x="165" y="358" text-anchor="middle" font-weight="600">Prompt rules</text><text x="165" y="378" text-anchor="middle" font-size="11.5" fill="#4a5a74">persona, plain language, one field</text><text x="165" y="394" text-anchor="middle" font-size="11.5" fill="#4a5a74">at a time, cite sections, stay on task,</text><text x="165" y="410" text-anchor="middle" font-size="11.5" fill="#4a5a74">ask to rephrase rather than guess</text>
+<rect x="315" y="330" width="250" height="96" rx="10" fill="#eef1f6" stroke="#9fb0c8"/>
+<text x="440" y="368" text-anchor="middle" font-weight="600">Conversation memory</text><text x="440" y="388" text-anchor="middle" font-size="11.5" fill="#4a5a74">recent turns (windowed)</text>
+<rect x="590" y="330" width="250" height="96" rx="10" fill="#0b1f3a"/>
+<text x="715" y="366" text-anchor="middle" font-weight="600" fill="#e8c97a">GPT-4 via LangChain</text><text x="715" y="386" text-anchor="middle" font-size="11.5" fill="#c9d4e6">rules + memory + retrieved context</text>
+<path d="M440 286V326" stroke="#4a5a74" stroke-width="1.6" marker-end="url(#a)"/>
+<path d="M290 378H311" stroke="#4a5a74" stroke-width="1.6" marker-end="url(#a)"/><path d="M565 378H586" stroke="#4a5a74" stroke-width="1.6" marker-end="url(#a)"/>
+<rect x="315" y="456" width="525" height="48" rx="10" fill="#f6efdc" stroke="#c9a24a"/>
+<text x="577" y="485" text-anchor="middle" font-weight="600">Step-by-step guidance + response time, logged; user rates 1–5 at the end</text>
+<path d="M715 426V452" stroke="#4a5a74" stroke-width="1.6" marker-end="url(#a)"/>
+</g></svg>
+</div>
+    <p class="figcap">CORES uses retrieval-augmented generation: answers are grounded in the forms themselves, not just the model's general knowledge.</p>
+    <div class="prose" style="margin-top:18px">
+      <ul>
+        <li><strong>Reading scanned forms.</strong> PyMuPDF and docx2txt extract text, and Tesseract OCR reads text inside images, because many real forms are scans.</li>
+        <li><strong>Search.</strong> Text is split into overlapping chunks, embedded with OpenAI embeddings and stored in a FAISS vector index. Each question retrieves the three most relevant passages.</li>
+        <li><strong>Answering.</strong> GPT-4, via LangChain, combines the retrieved passages, recent conversation and a detailed set of instructions.</li>
+        <li><strong>Measuring.</strong> Every answer is timed, every session is logged, and users rate the experience at the end.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="prose" aria-labelledby="prompt-h">
+    <h2 id="prompt-h">Designing the assistant's behaviour</h2>
+    <p>Much of the work went into the instructions that shape how CORES behaves with vulnerable users. It is told to:</p>
+    <ul>
+      <li>use short, friendly, culturally sensitive sentences, one per line;</li>
+      <li>guide one field at a time and check each before moving on;</li>
+      <li>point to the relevant form, section and page;</li>
+      <li>ask the user to rephrase rather than guess when it cannot find an answer;</li>
+      <li>stay on task when a conversation drifts, and offer reassurance throughout.</li>
+    </ul>
+    <p>In testing, it corrected its own mistake when a user challenged it:</p>
+    <div class="chat">
+      <p class="u"><b>User:</b> Where is this asked? I cannot find the form.</p>
+      <p class="a"><b>CORES:</b> I apologise for the confusion. The section for your personal details is on the Referral Form, not the Nutritional Risk Assessment form. My mistake for the mix-up.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="res-h">
+    <h2 id="res-h">Results</h2>
+    <div class="prose">
+      <p><strong>Accuracy:</strong> 22 of 24 test exchanges were correct, giving 91.67% (correct responses &divide; total queries &times; 100).</p>
+      <p><strong>Speed depends on the question.</strong> Questions needing detailed, grounded answers take longer; simple or off-topic messages get short, quick replies:</p>
+    </div>
+    <table class="rt">
+      <thead><tr><th>Question type</th><th>Average response</th></tr></thead>
+      <tbody>
+        <tr><td>Logical / clarification</td><td>6.44 s</td></tr>
+        <tr><td>Procedural</td><td>4.85 s</td></tr>
+        <tr><td>Inappropriate / incoherent</td><td>2.39 s</td></tr>
+        <tr><td>Identity / existential</td><td>2.20 s</td></tr>
+      </tbody>
+    </table>
+    <div class="prose" style="margin-top:14px">
+      <p><strong>Usability:</strong> early user testing was positive, especially about the step-by-step approach and the clarity of instructions, and most session ratings were high.</p>
+    </div>
+  </section>
+
+  <section class="prose" aria-labelledby="resp-h">
+    <h2 id="resp-h">Responsible AI and data protection</h2>
+    <ul>
+      <li>No real personal data is shown on this page or in the published code.</li>
+      <li>The original forms are not published; they belong to their publisher.</li>
+      <li>API keys are never stored in the code.</li>
+      <li>The assistant is instructed to stay within its purpose and ask for clarification rather than invent answers.</li>
+    </ul>
+  </section>
+
+  <section class="prose" aria-labelledby="lim-h">
+    <h2 id="lim-h">Limitations and next steps</h2>
+    <p>CORES is a research prototype, not an approved government or clinical service. The evaluation used a small number of test exchanges and users, so larger-scale testing is the essential next step. The assistant follows official mygov.scot procedures through its instructions rather than fetching the website live, and it runs as a text chat rather than a web app.</p>
+    <p>Next, I would add a web interface, live retrieval from official guidance with source links, and broader evaluation. The same approach can serve any organisation that needs to guide people through its own forms and policies.</p>
+  </section>
+
+  <section aria-labelledby="tech-h">
+    <h2 id="tech-h">Tech stack</h2>
+    <div class="tags">
+      <span class="tag">Python</span><span class="tag">LangChain</span><span class="tag">OpenAI GPT-4</span><span class="tag">OpenAI embeddings</span><span class="tag">FAISS</span><span class="tag">PyMuPDF</span><span class="tag">Tesseract OCR</span><span class="tag">Google Colab</span>
+    </div>
+    <div class="contact" style="margin-top:22px">
+      <a class="btn primary" href="https://github.com/CodeMagnate/cores-ai-assistant" target="_blank" rel="noopener">View code on GitHub</a>
+      <a class="btn" href="index.html#contact">Contact me</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span><b>ENGR AYODELE</b> &nbsp;Adeshina Ayodele</span>
+    <span>Paisley, Scotland &nbsp;&middot;&nbsp; Demonstrations use fictional sample data only</span>
+  </div>
+</footer>
+</body>
+</html>
