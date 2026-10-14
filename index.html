@@ -81,6 +81,11 @@ details li{margin-bottom:6px}
 .pending{color:var(--muted);font-size:.92rem}
 .links .note{flex-basis:100%;font-size:.8rem;color:var(--muted);margin:0}
 
+.privacy{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:12px;padding:16px 18px;margin:0 0 24px}
+.privacy svg{width:26px;height:26px;flex:none;color:var(--gold);margin-top:2px}
+.privacy h3{font-size:1rem;font-weight:600;margin:0 0 4px}
+.privacy p{margin:0 0 8px;font-size:.9rem;color:var(--muted);max-width:75ch}
+.privacy p:last-child{margin-bottom:0}
 .about{display:grid;grid-template-columns:1fr;gap:24px}
 @media (min-width:760px){.about{grid-template-columns:1.4fr 1fr}}
 .about p{max-width:62ch;margin:0 0 14px}
@@ -135,6 +140,14 @@ footer b{color:var(--gold-2);font-weight:500}
   <section id="projects" aria-labelledby="projects-h">
     <h2 id="projects-h">Case studies</h2>
     <p class="lead">Real projects, built and tested.</p>
+    <aside class="privacy" aria-labelledby="privacy-h">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M8.5 12l2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div>
+        <h3 id="privacy-h">Data protection notice</h3>
+        <p>These projects are presented in line with UK GDPR and the Data Protection Act 2018. No real personal data appears in any demonstration, screenshot or walkthrough on this site. Names and identifying details have been removed or replaced with fictional sample data.</p>
+        <p>The systems, workflows and data structures shown are genuine and reflect how each solution works in practice. Only the people in the data are not real.</p>
+      </div>
+    </aside>
 
     <div class="grid">
       <article class="card featured">
@@ -218,7 +231,7 @@ footer b{color:var(--gold-2);font-weight:500}
     <h2 id="contact-h">Contact</h2>
     <p class="lead">Open to roles, collaborations and conversations about AI and data in health, social care and public services.</p>
     <div class="contact">
-      <a class="btn primary" href="mailto:codemagnate084@gmail.com">Email me</a>
+      <a class="btn primary" href="mailto:ayodeleintech@gmail.com">Email me</a>
       <a class="btn" href="https://www.linkedin.com/in/adeshina-ayodele-02b12910/" rel="noopener">LinkedIn</a>
       <a class="btn" href="https://github.com/CodeMagnate" rel="noopener">GitHub</a>
     </div>
@@ -229,7 +242,7 @@ footer b{color:var(--gold-2);font-weight:500}
 <footer>
   <div class="wrap">
     <span><b>ENGR AYODELE</b> &nbsp;Adeshina Ayodele</span>
-    <span>Paisley, Scotland</span>
+    <span>Paisley, Scotland &nbsp;·&nbsp; Demonstrations use fictional sample data only</span>
   </div>
 </footer>
 
