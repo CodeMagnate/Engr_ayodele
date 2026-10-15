@@ -189,13 +189,22 @@ footer b{color:var(--gold-2);font-weight:500}
         <div class="row"><span class="tag">Full-Stack</span><span class="status">Live</span></div>
       </article>
 
-      <article class="card">
+      <article class="card featured">
         <svg class="ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="13" width="4" height="8"/><rect x="10" y="8" width="4" height="13"/><rect x="17" y="3" width="4" height="18"/></svg>
-        <h3>Power BI Analytics</h3>
-        <p class="stack">Dashboards, data modelling, DAX, KPIs</p>
-        <p class="pending">An interactive dashboard built on public Scottish health and social care data. Being added now.</p>
+        <h3>Delayed Discharges in Scotland</h3>
+        <p class="stack">Power BI, DAX, Power Query, data modelling</p>
+        <p>A three-page Power BI dashboard analysing ten years of Public Health Scotland data on people ready to leave hospital but delayed: how many, where, and why.</p>
+        <details>
+          <summary>Quick summary</summary>
+          <ul>
+            <li><strong>Finding:</strong> about 1,971 beds are occupied every day by delayed discharges; 71% of delayed bed days are for health and social care reasons, and 66% involve people aged 75+.</li>
+            <li><strong>Approach:</strong> Python data preparation and validation, a star-schema model and 17 DAX measures, including year-on-year and rolling 12-month calculations.</li>
+            <li><strong>Data:</strong> Public Health Scotland open data, Open Government Licence v3.0.</li>
+          </ul>
+        </details>
+        <a class="cslink" href="powerbi.html">Read the full case study &rarr;</a>
         <div class="links" data-project="powerbi"></div>
-        <div class="row"><span class="tag">Business Intelligence</span><span class="status">In progress</span></div>
+        <div class="row"><span class="tag">Business Intelligence</span><span class="status">Complete</span></div>
       </article>
 
       <article class="card">
@@ -269,7 +278,7 @@ const PROJECT_LINKS = {
   powerbi: {
     demo:  "",   // Power BI report link or dashboard screenshots page
     video: "",
-    code:  ""
+    code:  "https://github.com/CodeMagnate/delayed-discharge-dashboard"
   },
   sqlpython: {
     demo:  "",

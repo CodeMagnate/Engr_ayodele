@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Delayed discharges dashboard | Engr Ayodele</title>
+<meta name="description" content="A Power BI dashboard analysing ten years of Public Health Scotland data on delayed hospital discharges. By Adeshina Ayodele.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0b1f3a; --navy-2:#14315c; --gold:#c9a24a; --gold-2:#e8c97a;
+  --bg:#f6f7fa; --surface:#ffffff; --text:#0b1f3a; --muted:#4a5a74; --line:#d9dfe8;
+  --chip:#eef1f6; --tag-bg:#f6efdc; --tag-text:#6e531a;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#08162b; --surface:#0f2443; --text:#eef2f8; --muted:#a9b6ca; --line:#22406b;
+    --chip:#15305a; --tag-bg:#3a2f14; --tag-text:#e8c97a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#08162b; --surface:#0f2443; --text:#eef2f8; --muted:#a9b6ca; --line:#22406b;
+  --chip:#15305a; --tag-bg:#3a2f14; --tag-text:#e8c97a; color-scheme: dark;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Poppins,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:16px;line-height:1.6}
+a{color:inherit}
+a:focus-visible,summary:focus-visible{outline:3px solid var(--gold);outline-offset:3px;border-radius:6px}
+.wrap{max-width:960px;margin:0 auto;padding:0 20px}
+
+/* Hero: the card's front, as a page */
+.hero{background:linear-gradient(120deg,var(--navy) 0%,var(--navy) 58%,var(--navy-2) 100%);color:#fff;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;top:-10%;right:22%;width:14px;height:130%;background:linear-gradient(180deg,var(--gold-2),var(--gold) 50%,#8a6a25);border-radius:50%;transform:rotate(12deg);opacity:.9}
+.hero .wrap{position:relative;z-index:1;padding-top:40px;padding-bottom:56px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.mark{display:flex;align-items:center;gap:10px;text-decoration:none}
+.mark svg{width:26px;height:26px;color:var(--gold-2)}
+.mark b{display:block;font-weight:600;letter-spacing:.05em;color:var(--gold-2);line-height:1.1}
+.mark small{display:block;font-size:.8rem;color:#c9d4e6;font-weight:300}
+nav ul{list-style:none;display:flex;gap:8px;flex-wrap:wrap;margin:0;padding:0}
+nav a{display:inline-block;padding:6px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(232,201,122,.35);text-decoration:none;font-size:.88rem;color:#fff}
+nav a:hover{background:rgba(232,201,122,.18)}
+.hero h1{font-size:clamp(1.8rem,4.6vw,2.9rem);font-weight:600;line-height:1.15;margin:52px 0 10px;max-width:16ch}
+.name{font-size:1.15rem;margin:0;color:#fff}
+.quals{font-weight:300;color:#c9d4e6;margin:4px 0 0;font-size:.95rem}
+.rule{width:56px;height:3px;background:var(--gold);margin:22px 0 14px;border:0}
+.areas{color:var(--gold-2);font-weight:500;letter-spacing:.04em;font-size:.95rem;margin:0}
+.tagline{font-style:italic;font-weight:300;margin:6px 0 0;color:#fff}
+
+/* Sections */
+section{padding:56px 0 8px}
+h2{font-size:1.5rem;font-weight:600;margin:0 0 6px}
+.lead{color:var(--muted);margin:0 0 24px;max-width:62ch}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column}
+.card.featured{border-top:4px solid var(--gold)}
+.card .ico{width:28px;height:28px;color:var(--text);opacity:.8}
+.card h3{font-size:1.15rem;font-weight:600;margin:12px 0 4px}
+.card .stack{font-size:.88rem;color:var(--muted);margin:0 0 12px}
+.card p{margin:0 0 12px;max-width:60ch}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:auto}
+.tag{font-size:.8rem;font-weight:500;padding:3px 10px;border-radius:999px;background:var(--chip)}
+.status{font-size:.8rem;font-weight:500;padding:3px 10px;border-radius:999px;background:var(--tag-bg);color:var(--tag-text)}
+details{margin:4px 0 14px;border-top:1px solid var(--line);padding-top:10px}
+summary{cursor:pointer;font-weight:500;font-size:.92rem}
+details ul{margin:10px 0 0;padding-left:18px;font-size:.92rem;color:var(--muted)}
+details li{margin-bottom:6px}
+.links{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+.links a{display:inline-flex;align-items:center;padding:7px 14px;border-radius:8px;font-size:.88rem;font-weight:500;text-decoration:none;border:1px solid var(--line);background:var(--surface)}
+.links a.main{background:var(--navy);color:#fff;border-color:var(--navy)}
+:root[data-theme="dark"] .links a.main{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .links a.main{background:var(--gold);color:var(--navy);border-color:var(--gold)}}
+.links a:hover{border-color:var(--gold)}
+.links .soon{font-size:.85rem;color:var(--muted);font-style:italic}
+.pending{color:var(--muted);font-size:.92rem}
+.links .note{flex-basis:100%;font-size:.8rem;color:var(--muted);margin:0}
+
+.privacy{display:flex;gap:14px;align-items:flex-start;background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:12px;padding:16px 18px;margin:0 0 24px}
+.privacy svg{width:26px;height:26px;flex:none;color:var(--gold);margin-top:2px}
+.privacy h3{font-size:1rem;font-weight:600;margin:0 0 4px}
+.privacy p{margin:0 0 8px;font-size:.9rem;color:var(--muted);max-width:75ch}
+.privacy p:last-child{margin-bottom:0}
+.about{display:grid;grid-template-columns:1fr;gap:24px}
+@media (min-width:760px){.about{grid-template-columns:1.4fr 1fr}}
+.about p{max-width:62ch;margin:0 0 14px}
+.facts{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;margin:0}
+.facts dt{font-size:.82rem;color:var(--muted)}
+.facts dd{margin:0 0 12px;font-weight:500}
+
+.contact{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:10px;text-decoration:none;font-weight:500;border:1px solid var(--line);background:var(--surface)}
+.btn.primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+:root[data-theme="dark"] .btn.primary{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.primary{background:var(--gold);color:var(--navy);border-color:var(--gold)}}
+.btn:hover{border-color:var(--gold)}
+
+footer{margin-top:56px;background:var(--navy);color:#c9d4e6;border-top:3px solid var(--gold)}
+footer .wrap{padding-top:22px;padding-bottom:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:.88rem}
+footer b{color:var(--gold-2);font-weight:500}
+
+@media (max-width:640px){.hero::after{right:6%;opacity:.5}.hero h1{margin-top:36px}}
+</style>
+<style>
+.crumb{display:inline-block;margin-bottom:8px;color:#c9d4e6;font-size:.9rem;text-decoration:none}
+.crumb:hover{color:var(--gold-2)}
+.hero h1.cs{max-width:22ch;margin-top:40px}
+.kicker{color:var(--gold-2);font-weight:500;letter-spacing:.06em;font-size:.85rem;text-transform:uppercase;margin:0}
+.prose p{max-width:68ch;margin:0 0 14px}
+.prose ul{max-width:68ch;padding-left:20px;margin:0 0 14px}
+.prose li{margin-bottom:6px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:14px;margin:8px 0 18px}
+.stat{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--gold);border-radius:12px;padding:16px}
+.stat b{display:block;font-size:1.7rem;font-weight:600;line-height:1.1}
+.stat span{font-size:.88rem;color:var(--muted)}
+.figure{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;overflow-x:auto}
+.figure svg{display:block;width:100%;min-width:640px;height:auto}
+.figcap{font-size:.85rem;color:var(--muted);margin:8px 0 0}
+table.rt{border-collapse:collapse;width:100%;max-width:560px;background:var(--surface);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:.92rem}
+.rt th,.rt td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line)}
+.rt th{font-weight:600;background:var(--chip)}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.chat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;max-width:640px;font-size:.92rem}
+.chat p{margin:0 0 8px}.chat .u{color:var(--muted)}.chat .a b{color:var(--text)}
+.shot{padding:8px}.shot img{display:block;width:100%;height:auto;border-radius:8px}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <a class="crumb" href="index.html#projects">&larr; Back to all case studies</a>
+    <p class="kicker">Case study &nbsp;|&nbsp; Business Intelligence</p>
+    <h1 class="cs">Delayed discharges in Scotland: a Power BI dashboard</h1>
+    <p class="name">Ten years of NHS Scotland open data, turned into a clear story</p>
+    <p class="quals">Independent analysis of Public Health Scotland open data (July 2016 to August 2026)</p>
+    <hr class="rule">
+    <p class="areas">Power BI &nbsp;|&nbsp; DAX &nbsp;|&nbsp; Power Query &nbsp;|&nbsp; Data modelling &nbsp;|&nbsp; Python</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <section aria-labelledby="sum-h">
+    <h2 id="sum-h">At a glance (August 2026)</h2>
+    <div class="stats">
+      <div class="stat"><b>1,971</b><span>hospital beds occupied each day by people ready to leave</span></div>
+      <div class="stat"><b>71%</b><span>of delayed bed days were for health and social care reasons</span></div>
+      <div class="stat"><b>66%</b><span>were for people aged 75 and over</span></div>
+      <div class="stat"><b>62,914</b><span>record monthly high, October 2024</span></div>
+    </div>
+  </section>
+
+  <section class="prose" aria-labelledby="prob-h">
+    <h2 id="prob-h">The question</h2>
+    <p>A delayed discharge happens when someone is medically ready to leave hospital but cannot, often because care at home or a care home place is not yet arranged. Every delayed day is a bed that another patient cannot use, and a person waiting in hospital longer than they need to.</p>
+    <p>Working in Scottish health and social care, I wanted to see the national picture: how big the problem is, where it is concentrated, and why it happens. This dashboard answers those three questions on three pages.</p>
+  </section>
+
+  <section aria-labelledby="pages-h">
+    <h2 id="pages-h">The dashboard</h2>
+    <div class="prose"><p><strong>1. Overview:</strong> key figures for the latest month and the monthly trend since 2016, with filters for age group and reason.</p></div>
+    <div class="figure shot"><img src="images/pbi-overview.jpg" alt="Overview page: four KPI cards and a line chart of monthly delayed bed days from July 2016 to August 2026, showing a sharp fall in April 2020 and a record high in October 2024." loading="lazy"></div>
+    <div class="prose" style="margin-top:22px"><p><strong>2. Where are people delayed?</strong> Council areas ranked by delayed bed days over the last 12 months, and people delayed by health board.</p></div>
+    <div class="figure shot"><img src="images/pbi-where.jpg" alt="Where page: bar chart of 32 council areas led by Glasgow City and Highland, and a table of people delayed by health board." loading="lazy"></div>
+    <div class="prose" style="margin-top:22px"><p><strong>3. Why are people delayed?</strong> Reasons and age groups for the latest month, what each reason means, and how the mix of reasons has changed.</p></div>
+    <div class="figure shot"><img src="images/pbi-why.jpg" alt="Why page: donut charts of reasons and age groups, a table explaining each reason, and a stacked area chart of reasons over time." loading="lazy"></div>
+  </section>
+
+  <section class="prose" aria-labelledby="find-h">
+    <h2 id="find-h">What the data shows</h2>
+    <ul>
+      <li><strong>The problem is at record levels.</strong> Delayed bed days fell sharply in April 2020 as hospitals freed beds during the pandemic, then climbed to the highest levels in the series, peaking at 62,914 in October 2024.</li>
+      <li><strong>It is mainly a social care capacity issue.</strong> Health and social care reasons, such as waiting for an assessment, a care home place or a care package, account for 71% of delayed bed days. A further 20% involve Adults with Incapacity legal processes.</li>
+      <li><strong>Older people are most affected.</strong> Two thirds of delayed bed days are for people aged 75 and over.</li>
+      <li><strong>Size alone does not explain the ranking.</strong> Highland ranks second despite a smaller population than several areas below it, which population-based rates would test properly.</li>
+    </ul>
+  </section>
+
+  <section class="prose" aria-labelledby="how-h">
+    <h2 id="how-h">How I built it</h2>
+    <ul>
+      <li><strong>Data preparation (Python):</strong> downloaded four files from the Public Health Scotland open data portal, removed pre-calculated totals so nothing can be double-counted, and replaced area codes with names using the official geography lookups.</li>
+      <li><strong>Validation:</strong> checked that reasons, age groups and council areas add up exactly to the published Scotland totals for every month.</li>
+      <li><strong>Data model:</strong> a star schema with two fact tables and five dimension tables, joined by eight one-to-many relationships.</li>
+      <li><strong>DAX:</strong> 17 measures, including average daily beds, year-on-year change, a rolling 12-month total and percentage shares, written to work with a monthly date table.</li>
+      <li><strong>Design:</strong> a custom theme, plain-English titles and labels, annotations for key events, and a source credit on every page.</li>
+    </ul>
+  </section>
+
+  <section class="prose" aria-labelledby="lim-h">
+    <h2 id="lim-h">Limitations and next steps</h2>
+    <p>Figures are counts, not rates, so larger areas naturally show more delays. Census figures are a snapshot on one day each month and cannot be added across months. Bed days are recorded by council area of residence, while census delays are by health board, so the two are not compared directly. The next step is adding population estimates from National Records of Scotland to compare areas fairly.</p>
+    <p class="figcap">Source: Public Health Scotland, Delayed Discharges in NHSScotland. Contains public sector information licensed under the Open Government Licence v3.0. Independent analysis, not endorsed by Public Health Scotland or the NHS.</p>
+  </section>
+
+  <section aria-labelledby="tech-h">
+    <h2 id="tech-h">Tools</h2>
+    <div class="tags">
+      <span class="tag">Power BI Desktop</span><span class="tag">DAX</span><span class="tag">Power Query</span><span class="tag">Star schema</span><span class="tag">Python (pandas)</span><span class="tag">Open data</span>
+    </div>
+    <div class="contact" style="margin-top:22px">
+      <a class="btn primary" href="https://github.com/CodeMagnate/delayed-discharge-dashboard" target="_blank" rel="noopener">View files on GitHub</a>
+      <a class="btn" href="index.html#contact">Contact me</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span><b>ENGR AYODELE</b> &nbsp;Adeshina Ayodele</span>
+    <span>Paisley, Scotland &nbsp;&middot;&nbsp; Demonstrations use fictional sample data only</span>
+  </div>
+</footer>
+</body>
+</html>
