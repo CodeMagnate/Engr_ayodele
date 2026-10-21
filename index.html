@@ -207,13 +207,21 @@ footer b{color:var(--gold-2);font-weight:500}
         <div class="row"><span class="tag">Business Intelligence</span><span class="status">Complete</span></div>
       </article>
 
-      <article class="card">
+      <article class="card featured">
         <svg class="ico" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5c0 1.7-3.6 3-8 3S4 6.7 4 5z"/></svg>
-        <h3>SQL &amp; Python Projects</h3>
-        <p class="stack">Data analysis, querying and automation</p>
-        <p class="pending">Reproducible analysis projects with code on GitHub. Being added now.</p>
+        <h3>Safe Haven–Style Data Extract Pipeline</h3>
+        <p class="stack">SQL (PostgreSQL), Python, ETL, de-identification</p>
+        <p>A practice pipeline, on entirely fictional patient data, that reproduces the work of an NHS Safe Haven analyst: extracting a research cohort with SQL, auditing data quality, pseudonymising and minimising the data, and checking it before release.</p>
+        <details>
+          <summary>Quick summary</summary>
+          <ul>
+            <li><strong>Data:</strong> about 150,000 synthetic records (patients with CHI-format numbers, admissions, ICD-10 diagnoses, prescriptions) generated in Python, with deliberate quality problems.</li>
+            <li><strong>Pipeline:</strong> staging, warehouse and extract layers; a transactional ETL with row-count reconciliation; nine quality checks that caught every planted problem.</li>
+            <li><strong>Governance:</strong> random study IDs, age bands instead of dates of birth, small-number suppression, and ten release checks that must all pass.</li>
+          </ul>
+        </details>
         <div class="links" data-project="sqlpython"></div>
-        <div class="row"><span class="tag">Data Analytics</span><span class="status">In progress</span></div>
+        <div class="row"><span class="tag">Data Engineering</span><span class="status">Complete</span></div>
       </article>
     </div>
   </section>
@@ -283,7 +291,7 @@ const PROJECT_LINKS = {
   sqlpython: {
     demo:  "",
     video: "",
-    code:  ""    // e.g. https://github.com/CodeMagnate/your-repo
+    code:  "https://github.com/CodeMagnate/safe-haven-extract-pipeline"    // e.g. https://github.com/CodeMagnate/your-repo
   }
 };
 /* ===== end of editable section ===== */
